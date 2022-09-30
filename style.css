@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  margin: 2rem 0 0;
+}
+
+p {
+  margin: 0 0 4rem;
+}
+
+.calculator {
+  height: 450px;
+  width: 300px;
+  border: 1px solid;
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color:slategray;
+  border-radius: 3%;
+}
+
+.display, .keypad {
+  margin-top: 15px;
+}
+
+.display {
+  height: 70px;
+  width: 80%;
+  border: solid 1px;
+  border-radius: 3%;
+  background-color: wheat;
+}
+
+.keypad {
+  height: 330px;
+  width: 85%;
+  border: 1px solid white;
+}
+
+footer {
+  text-align: center;
+}
