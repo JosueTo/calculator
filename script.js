@@ -4,6 +4,9 @@ const subtract = (operand1, operand2) => operand1 - operand2;
 const multiply = (operand1, operand2) => operand1 * operand2;
 const divide = (operand1, operand2) => operand1 / operand2;
 
+let displayValue = 0;
+
+
 const operate = (num1, operator, num2) => {
   if (operator === '+') {
     return add(num1, num2);
