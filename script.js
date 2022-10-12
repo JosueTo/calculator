@@ -37,16 +37,35 @@ const calculator = () => {
   numbers.forEach(number => number.addEventListener('click', (e) => {
       handleNumbers(e.target.textContent);
       currentOperand.textContent = currentValue;
-      console.log(currentValue.length);
   }))
+
+  allClear.addEventListener('click', clear);
+
+  undo.addEventListener('click', deleteLastItem);
 }
 
 // functions
 const handleNumbers = (number) => {
   if (currentValue.length < 12) {
+    if (number === '0' && currentValue === '0') return;
     if (number === '.' && currentValue.includes('.')) return;
+    if (number === '.' && currentValue === '') {
+      return currentValue = '0.';
+    }
     currentValue += number;
   }
+}
+
+const clear = () => {
+  currentOperand.textContent = '';
+  previousOperand.textContent = '';
+  operator = '';
+  currentValue = '';
+}
+
+const deleteLastItem = () => {
+  currentValue = currentValue.slice(0, -1);
+  currentOperand.textContent = currentValue;
 }
 
 calculator();
