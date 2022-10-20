@@ -39,15 +39,22 @@ const calculator = () => {
       currentOperand.textContent = currentValue;
   }))
 
+  operators.forEach(operator => operator.addEventListener('click', (e) => {
+    handleOperators(e.target.textContent); 
+  }))
+
   allClear.addEventListener('click', clear);
 
   undo.addEventListener('click', deleteLastItem);
+
+  equals.addEventListener('click', calculate)
 }
 
 // functions
 const handleNumbers = (number) => {
   if (currentValue.length < 12) {
     if (number === '0' && currentValue === '0') return;
+    if (number > '0' && currentValue === '0') currentValue = '';
     if (number === '.' && currentValue.includes('.')) return;
     if (number === '.' && currentValue === '') {
       return currentValue = '0.';
@@ -56,17 +63,56 @@ const handleNumbers = (number) => {
   }
 }
 
+const handleOperators = (op) => {
+  operator = op;
+  
+  if (previousValue === '' && currentValue === '') return;
+  if (operator !== '' && currentOperand.textContent === '') {  
+    // checks if an operator already exist and changes it for the new operator without lose the previous value.
+    previousOperand.textContent = previousValue + ' ' + operator;
+  }
+  if (currentOperand.textContent === '') return;
+  previousOperand.textContent = currentValue + ' ' + operator;
+  previousValue = currentValue;
+  currentValue = '';
+  currentOperand.textContent = currentValue;
+}
+
 const clear = () => {
   currentOperand.textContent = '';
   previousOperand.textContent = '';
   operator = '';
   currentValue = '';
+  previousValue = '';
 }
 
 const deleteLastItem = () => {
+  if (typeof currentValue != 'string') return;
   currentValue = currentValue.slice(0, -1);
   currentOperand.textContent = currentValue;
 }
+
+const calculate = () => {
+  currentValue = Number(currentValue);
+  previousValue = Number(previousValue);
+  if (operator === '+') {
+    previousOperand.textContent = previousValue + ' ' + operator + ' ' + currentValue;
+    currentOperand.textContent = currentValue += previousValue;
+  } else if (operator === 'x') {
+    previousOperand.textContent = previousValue + ' ' + operator + ' ' + currentValue;
+    currentOperand.textContent = currentValue *= previousValue;
+  } else if (operator === '÷') {
+    previousOperand.textContent = previousValue + ' ' + operator + ' ' + currentValue;
+    currentValue = previousValue / currentValue;
+    currentOperand.textContent = currentValue;
+  } else if (operator === '-') {
+    previousOperand.textContent = previousValue + ' ' + operator + ' ' + currentValue;
+    currentValue = previousValue - currentValue;
+    currentOperand.textContent = currentValue;
+  } 
+}
+
+
 
 calculator();
 
