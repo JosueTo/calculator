@@ -1,24 +1,4 @@
 
-// const add = (operand1, operand2) => operand1 + operand2;
-// const subtract = (operand1, operand2) => operand1 - operand2;
-// const multiply = (operand1, operand2) => operand1 * operand2;
-// const divide = (operand1, operand2) => operand1 / operand2;
-
-// let displayValue = 0;
-
-
-// const operate = (num1, operator, num2) => {
-//   if (operator === '+') {
-//     return add(num1, num2);
-//   } else if (operator === '-') {
-//     return subtract(num1, num2);
-//   } else if (operator === '*') {
-//     return multiply(num1, num2);
-//   } else if (operator === '/') {
-//     return divide(num1, num2);
-//   }
-// }
-
 const numbers = document.querySelectorAll('.number');
 const operators = document.querySelectorAll('.operator');
 const allClear = document.querySelector('#all-clear');
@@ -36,7 +16,6 @@ const calculator = () => {
   // events
   numbers.forEach(number => number.addEventListener('click', (e) => {
       handleNumbers(e.target.textContent);
-      currentOperand.textContent = currentValue;
   }))
 
   operators.forEach(operator => operator.addEventListener('click', (e) => {
@@ -60,15 +39,25 @@ const handleNumbers = (number) => {
       return currentValue = '0.';
     }
     currentValue += number;
+    currentOperand.textContent = currentValue;
   }
 }
 
 const handleOperators = (op) => {
+  /* perform the calculation without the equals key if the user 
+  wants to string several operations. This if statement goes before assigning
+  a new operator to allow the previous operation to be executed before 
+  assigning a new operator, otherwise the previous operation would be
+  performed with whatever new operator we use, which would be wrong.
+  */
+  if (currentValue != '' && previousValue != '' && operator != '') calculate();
+  
   operator = op;
   
   if (previousValue === '' && currentValue === '') return;
+  /* checks if an operator already exist and changes it for the new operator 
+  without lose the previous value */
   if (operator !== '' && currentOperand.textContent === '') {  
-    // checks if an operator already exist and changes it for the new operator without lose the previous value.
     previousOperand.textContent = previousValue + ' ' + operator;
   }
   if (currentOperand.textContent === '') return;
@@ -93,6 +82,7 @@ const deleteLastItem = () => {
 }
 
 const calculate = () => {
+  if(currentValue === '' || previousValue === '') return; // if there's not two values: do nothing
   currentValue = Number(currentValue);
   previousValue = Number(previousValue);
   if (operator === '+') {
