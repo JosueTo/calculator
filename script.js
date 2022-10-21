@@ -19,7 +19,7 @@ const calculator = () => {
   }))
 
   operators.forEach(operator => operator.addEventListener('click', (e) => {
-    handleOperators(e.target.textContent); 
+    handleOperators(e.target.textContent);
   }))
 
   allClear.addEventListener('click', clear);
@@ -27,6 +27,8 @@ const calculator = () => {
   undo.addEventListener('click', deleteLastItem);
 
   equals.addEventListener('click', calculate)
+
+  window.addEventListener('keydown', keyboardSupport)
 }
 
 // functions
@@ -91,7 +93,8 @@ const calculate = () => {
   } else if (operator === 'x') {
     previousOperand.textContent = previousValue + ' ' + operator + ' ' + currentValue;
     currentOperand.textContent = currentValue *= previousValue;
-  } else if (operator === '÷') {
+  } else if (operator === '') {
+    if (currentValue === 0) return currentOperand.textContent = 'Really?';
     previousOperand.textContent = previousValue + ' ' + operator + ' ' + currentValue;
     currentValue = previousValue / currentValue;
     currentOperand.textContent = currentValue;
@@ -101,6 +104,24 @@ const calculate = () => {
     currentOperand.textContent = currentValue;
   } 
 }
+
+const keyboardSupport = (e) => {
+  if (e.key >= 0 && e.key <= 9) handleNumbers(e.key);
+  if (e.key === '+' || e.key === '-' || e.key === 'x' || e.key === '÷') 
+  handleOperators(convertKeyboardOperators(e.key));
+  if (e.key === '=' || e.key === 'Enter') calculate();
+  if (e.key === 'Backspace') deleteLastItem();
+  if (e.key === 'Escape') clear();
+}
+
+const convertKeyboardOperators = (operator) => {
+  if (operator === '*') return 'x';
+  if (operator === '/') return '÷';
+  if (operator === '+') return '+';
+  if (operator === '-') return '-';
+}
+
+
 
 
 
