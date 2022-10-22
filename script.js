@@ -58,7 +58,7 @@ const handleOperators = (op) => {
   
   if (previousValue === '' && currentValue === '') return;
   /* checks if an operator already exist and changes it for the new operator 
-  without lose the previous value */
+  without losing the previous value */
   if (operator !== '' && currentOperand.textContent === '') {  
     previousOperand.textContent = previousValue + ' ' + operator;
   }
@@ -90,24 +90,29 @@ const calculate = () => {
   if (operator === '+') {
     previousOperand.textContent = previousValue + ' ' + operator + ' ' + currentValue;
     currentOperand.textContent = currentValue += previousValue;
+    previousValue = '';
   } else if (operator === 'x') {
     previousOperand.textContent = previousValue + ' ' + operator + ' ' + currentValue;
     currentOperand.textContent = currentValue *= previousValue;
-  } else if (operator === '') {
+    previousValue = '';
+  } else if (operator === '÷') {
     if (currentValue === 0) return currentOperand.textContent = 'Really?';
     previousOperand.textContent = previousValue + ' ' + operator + ' ' + currentValue;
     currentValue = previousValue / currentValue;
     currentOperand.textContent = currentValue;
+    previousValue = '';
   } else if (operator === '-') {
     previousOperand.textContent = previousValue + ' ' + operator + ' ' + currentValue;
     currentValue = previousValue - currentValue;
     currentOperand.textContent = currentValue;
+    previousValue = '';
   } 
 }
 
 const keyboardSupport = (e) => {
   if (e.key >= 0 && e.key <= 9) handleNumbers(e.key);
-  if (e.key === '+' || e.key === '-' || e.key === 'x' || e.key === '÷') 
+  if (e.key === '.') handleNumbers(e.key);
+  if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') 
   handleOperators(convertKeyboardOperators(e.key));
   if (e.key === '=' || e.key === 'Enter') calculate();
   if (e.key === 'Backspace') deleteLastItem();
@@ -116,9 +121,13 @@ const keyboardSupport = (e) => {
 
 const convertKeyboardOperators = (operator) => {
   if (operator === '*') return 'x';
+  console.log(operator);
   if (operator === '/') return '÷';
+  console.log(operator);
   if (operator === '+') return '+';
+  console.log(operator);
   if (operator === '-') return '-';
+  console.log(operator);
 }
 
 
