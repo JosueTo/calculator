@@ -135,13 +135,3 @@ const convertKeyboardOperators = (operator) => {
 
 
 calculator();
-
-// main function 
-// const calculator = () => {
-//   // events
-//   numbers.forEach(number => {
-//     number.addEventListener('click', () => {
-//       currentOperation.textContent += number.textContent;
-//     })
-//   })
-// }
